@@ -30,5 +30,30 @@ Bidirectional Encoder Representations from Transformers (BERT) is based on the s
 In this project, the “bert-base-uncased” model was used in all experiments to extract the word embeddings. The embeddings are then fed to a linear classifier to predict the classes. Also a dropout layer was added between the embeddings layer and the classifier function. The model’s architecture can be visualized as follows:
 <img width="671" alt="Screen Shot 2023-09-18 at 17 43 22" src="https://github.com/rayenebech/text-classification/assets/34574318/36785936-aab5-4b61-b607-f88e4573fe23">
 
+# Combining Models Together #
+What happens if we combine embeddings of two different models together?  Either the hidden features captured by the models will complete each other, or the classifier will just get confused by the vectors from different semantic spaces!
 
+One way to know that is hands-on experiences! Let's combine embeddings from BERT and FastText and evaluate the results. To do so, I applied three different methods:
+1. Concatenate words (BERT, FastText), sum for sentence:
+   - Compute BERT words embeddings for each word separately.
+   - Compute FastText words embeddings for each word separately.
+   - Combine embeddings for each word separately by concatenating BERT word embeddings with FastText word embeddings.
+   - At this stage we have a combined representation for each single word. To compute the sentence embedding, we sum the embeddings of all the words
+<img width="969" alt="Screen Shot 2023-09-18 at 17 54 51" src="https://github.com/rayenebech/text-classification/assets/34574318/5a626b22-8587-495e-86be-0cd148538826">
+
+
+2. Sum words (BERT, FastText), sum for sentence:
+   - Compute BERT words embeddings for each word separately.
+   - Compute FastText words embeddings for each word separately.
+   - Combine embeddings for each word separately by summing BERT word embeddings with FastText word embeddings.
+   - At this stage we have a combined representation for each single word. To compute the sentence embedding, we sum the embeddings of all the words
+<img width="987" alt="Screen Shot 2023-09-18 at 17 56 04" src="https://github.com/rayenebech/text-classification/assets/34574318/d60a3261-b67b-4867-9240-b2a9939bee90">
+
+3. Compute each sentence representation separately (sum words), then combine the two sentence representations by sum:
+   - Compute BERT words embeddings for each word separately.
+   - Compute BERT sentence embeddings by summing BERT word embeddings.
+   - Compute FastText words embeddings for each word separately.
+   - Compute FastText sentence embeddings by summing FastText word embeddings.
+   - Combine the two Sentence Embeddings by summing BERT sentence embeddings with FastText sentence embeddings.
+<img width="960" alt="Screen Shot 2023-09-18 at 17 57 06" src="https://github.com/rayenebech/text-classification/assets/34574318/c6a9e848-bece-4df3-8054-8ed24f8170fa">
 
